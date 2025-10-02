@@ -31,3 +31,4 @@ export const questionsRelations = relations(QuestionTable, ({ one }) => ({
     references: [JobInfoTable.id],
   }),
 }))
+
