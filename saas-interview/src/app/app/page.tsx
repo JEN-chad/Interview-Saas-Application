@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Loader2Icon } from "lucide-react";
+import { Loader2Icon, PlusIcon } from "lucide-react";
 import { getCurrentUser } from "@/services/clerk/lib/getCurrentUser";
 import { db } from "@/drizzle/db";
 import { JobInfoTable } from "@/drizzle/schema";
@@ -7,6 +7,9 @@ import { desc, eq } from "drizzle-orm";
 import { cacheTag } from "next/dist/server/use-cache/cache-tag";
 import { getJobInfoUserTag } from "@/features/jobInfos/dbCache";
 import { Card, CardContent } from "@/components/ui/card";
+import { JobInfoForm } from "@/features/jobInfos/components/JobInfoForm";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function AppPage() {
   return (
@@ -34,15 +37,36 @@ async function JobInfos() {
   if (jobInfos.length === 0) {
     return <NoJobInfos />;
   }
-  return null;
+
+  //? Displaying the user created job infos
+
+  return (
+    <div className="container my-4">
+      <div className="flex gap-2 justify-between mb-6">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl">
+          Select a job description
+        </h1>
+        <Button asChild >
+          <Link href="app/job-infos/new" >
+            <PlusIcon />
+            Create a Job description
+          </Link>
+        </Button>
+      </div>
+    </div>
+  );
 }
 
 function NoJobInfos() {
   return (
     <div className="container my-4 max-w-5xl">
       <h1 className="text-3xl md:text-4xl lg:text-5xl mb-4">
-        Welcome to HireMind AI
+        Welcome to{" "}
+        <span className="bg-gradient-to-r from-green-500 via-green-600 to-green-700 dark:from-green-300 dark:via-green-400 dark:to-green-500 bg-clip-text text-transparent">
+          HireMind AI
+        </span>
       </h1>
+
       <p className="text-muted-foreground mb-8">
         To get started, enter information about the type of job you are wanting
         to apply for. This can be specific information copied directly from a
